@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Pennywise account{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<style>
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:28px;background:#f5f7f8}
+.auth-card{width:min(460px,100%);background:#fff;padding:34px;border:1px solid #e7ecef;border-radius:18px;box-shadow:0 12px 35px #1b344012}
+.auth-brand{font-size:25px;font-weight:800;color:#173b36;margin-bottom:8px}.auth-brand span{color:#0f9f86}
+.auth-card h1{font-size:26px;margin:24px 0 6px}.auth-card p{color:#718079;margin:0 0 22px}
+.auth-card .field{margin:14px 0}.auth-card input{width:100%}.auth-card button{width:100%;margin-top:12px}
+.auth-foot{text-align:center;margin-top:20px;color:#718079}.auth-foot a{color:#087f6b;font-weight:700}
+.auth-flash{padding:10px 12px;background:#fff4e5;border-radius:8px;margin:10px 0;color:#76501c}
+</style></head><body><main class="auth-wrap"><section class="auth-card">
+<a class="auth-brand" href="/"><span>₹</span> Pennywise</a>
+{% with messages=get_flashed_messages() %}{% for m in messages %}<div class="auth-flash">{{ m }}</div>{% endfor %}{% endwith %}
+{% block content %}{% endblock %}
+</section></main></body></html>

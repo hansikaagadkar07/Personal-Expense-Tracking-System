@@ -1,0 +1,10 @@
+{% extends "auth_base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<h1>Welcome back</h1><p>Log in to view your personal expense tracker.</p>
+<form method="post">
+<div class="field"><label for="email">Email address</label><input id="email" type="email" name="email" required autocomplete="email"></div>
+<div class="field"><label for="password">Password</label><input id="password" type="password" name="password" required autocomplete="current-password"></div>
+<button type="submit">Log in</button></form>
+<div class="auth-foot">New to Pennywise? <a href="/register">Create an account</a></div>
+{% endblock %}

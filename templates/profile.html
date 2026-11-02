@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block page_heading %}My profile{% endblock %}
+{% block content %}
+<div class="page-intro"><div><h1>My profile</h1><p>Your account details for this Pennywise workspace.</p></div></div>
+<section class="panel compact-panel"><div class="panel-header"><div><h2>Account information</h2><p>Your profile was created when you registered.</p></div></div>
+<div class="summary-list"><li><span>Name</span><strong>{{ user[0] }}</strong></li><li><span>Email</span><strong>{{ user[1] }}</strong></li><li><span>Account created</span><strong>{{ user[2] }}</strong></li></div>
+<form method="post" action="/logout" style="margin-top:20px"><button type="submit">Log out</button></form></section>
+{% endblock %}

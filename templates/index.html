@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Overview{% endblock %}
+{% block page_heading %}Expense overview{% endblock %}
+{% block content %}
+<div class="page-intro"><div><h1>Good money habits start here.</h1><p>Track your spending, organize transactions and stay on top of your budget.</p></div><a class="btn btn-secondary" href="/report">◔ &nbsp; View reports</a></div>
+{% if warnings %}<div class="alert-box"><strong>⚠ Budget alerts for {{ this_month }}</strong><ul>{% for w in warnings %}<li>{{ w.name }}: {{ w.status }} — spent {{ w.spent }} of {{ w.budget }} ({{ w.pct }}%)</li>{% endfor %}</ul></div>{% endif %}
+<div class="stat-grid"><div class="stat-card"><div class="stat-label">TRANSACTIONS SHOWN</div><div class="stat-value">{{ expenses|length }}</div><div class="stat-note">Matching your current search</div></div><div class="stat-card"><div class="stat-label">BUDGET CHECK</div><div class="stat-value">{% if warnings %}{{ warnings|length }}{% else %}All clear{% endif %}</div><div class="stat-note">{% if warnings %}Category alert(s) to review{% else %}No budget alerts this month{% endif %}</div></div><div class="stat-card"><div class="stat-label">QUICK ACTION</div><div class="stat-value">Add expense</div><div class="stat-note">Keep your records up to date</div></div><div class="stat-card"><div class="stat-label">THIS MONTH</div><div class="stat-value">{{ this_month }}</div><div class="stat-note">Your current budget period</div></div></div>
+<div class="section-heading"><div><h2>Add an expense</h2><p class="section-subtitle">Record a purchase or payment in a few seconds.</p></div></div>
+<section class="panel"><form method="post" action="/add" class="plain-form">
+  <div class="form-grid">
+    <div class="field"><label for="expense_date">Date</label><input id="expense_date" type="date" name="expense_date" required></div>
+    <div class="field"><label for="category_id">Category</label><select id="category_id" name="category_id">{% for c in categories %}<option value="{{ c[0] }}">{{ c[1] }}</option>{% endfor %}</select></div>
+    <div class="field"><label for="amount">Amount (₹)</label><input id="amount" type="number" name="amount" step="0.01" min="0.01" placeholder="0.00" required></div>
+    <div class="field"><label for="payment_method">Payment method</label><select id="payment_method" name="payment_method">{% for p in payments %}<option>{{ p }}</option>{% endfor %}</select></div>
+    <div class="field full"><label for="description">Description <span class="muted">(optional)</span></label><input id="description" type="text" name="description" placeholder="e.g. Lunch with friends"></div>
+  </div><div class="form-actions"><button type="submit">＋ Add expense</button><span class="muted">Your entry is saved to your local database.</span></div>
+</form></section>
+<div class="section-heading"><div><h2>Manage categories</h2><p class="section-subtitle">Create a category that fits your spending.</p></div></div>
+<section class="panel"><form method="post" action="/add_category" class="inline-form"><div class="field"><label for="category_name">New category name</label><input id="category_name" type="text" name="category_name" maxlength="50" placeholder="e.g. Pets or Travel" required></div><button type="submit">＋ Add category</button></form></section>
+<div class="section-heading"><div><h2>Recent expenses</h2><p class="section-subtitle">Review, search and manage your recorded transactions.</p></div><a class="btn btn-secondary" href="/export/expenses.csv">⇩ Export CSV</a></div>
+<section class="panel"><div class="panel-header"><div><h2>All transactions</h2><p>Use search to find a description or category.</p></div><form method="get" action="/" class="search-bar"><input type="text" name="q" value="{{ q }}" placeholder="Search expenses…" aria-label="Search expenses"><button type="submit">Search</button>{% if q %}<a class="btn btn-link" href="/">Clear</a>{% endif %}</form></div>
+{% if q %}<p class="section-subtitle">Showing {{ expenses|length }} result(s) for “{{ q }}”.</p>{% endif %}
+{% if expenses %}<div class="table-wrap"><table><thead><tr><th>ID</th><th>Date</th><th>Category</th><th>Amount</th><th>Description</th><th>Payment</th><th>Actions</th></tr></thead><tbody>{% for e in expenses %}<tr><td>{{ e[0] }}</td><td>{{ e[1] }}</td><td><span class="category-pill">{{ e[2] }}</span></td><td class="amount">₹{{ '%.2f'|format(e[3]|float) }}</td><td>{{ e[4] or '—' }}</td><td><span class="payment-pill">{{ e[5] }}</span></td><td><div class="table-actions"><a href="/edit/{{ e[0] }}">Edit</a><form method="post" action="/delete/{{ e[0] }}" onsubmit="return confirm('Delete this expense?');"><button type="submit">Delete</button></form></div></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><div class="empty-icon">▤</div><strong>No expenses found</strong><p>{% if q %}Try another search or clear the filter.{% else %}Add your first expense using the form above.{% endif %}</p></div>{% endif %}
+</section>
+{% endblock %}
