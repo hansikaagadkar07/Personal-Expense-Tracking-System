@@ -25,4 +25,4 @@ manage, and analyze their personal expenses.
 3. Configure the database settings in your local `.env` file.
 4. Run:
    python app.py
-5. Open http://127.0.0.1:5000 in your browser.
+5. Open https://javeed.onrender.com in your browser.
